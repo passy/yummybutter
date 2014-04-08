@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import net.rdrei.android.yummybutter.app.dummy.DummyContent;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 /**
  * A fragment representing a single Item detail screen.
  * This fragment is either contained in a {@link ItemListActivity}
@@ -31,8 +34,11 @@ public class ItemDetailFragment extends Fragment {
 
     private int mMutCounter = 0;
 
+    @InjectView(R.id.item_detail)
     TextView mTextItemDetail;
+    @InjectView(R.id.btn_count)
     Button mBtnCount;
+    @InjectView(R.id.item_count)
     TextView mTextCounter;
 
     /**
@@ -63,10 +69,8 @@ public class ItemDetailFragment extends Fragment {
             return rootView;
         }
 
-        // This is icky ...
-        mTextCounter = (TextView) rootView.findViewById(R.id.item_count);
-        mBtnCount = (Button) rootView.findViewById(R.id.btn_count);
-        mTextItemDetail = (TextView) rootView.findViewById(R.id.item_detail);
+        // Much better!
+        ButterKnife.inject(this, rootView);
 
         mBtnCount.setOnClickListener(new View.OnClickListener() {
             @Override
