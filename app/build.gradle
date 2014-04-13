@@ -26,5 +26,6 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:19.+'
     compile 'com.jakewharton:butterknife:4.0.1'
+    compile 'com.squareup.retrofit:retrofit:1.5.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }

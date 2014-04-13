@@ -1,5 +1,6 @@
 package net.rdrei.android.yummybutter.app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -22,7 +23,7 @@ import android.support.v4.app.FragmentActivity;
  * {@link ItemListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class ItemListActivity extends FragmentActivity
+public class ItemListActivity extends Activity
         implements ItemListFragment.Callbacks {
 
     /**
@@ -45,7 +46,7 @@ public class ItemListActivity extends FragmentActivity
 
             // In two-pane mode, list items should be given the
             // 'activated' state when touched.
-            ((ItemListFragment) getSupportFragmentManager()
+            ((ItemListFragment) getFragmentManager()
                     .findFragmentById(R.id.item_list))
                     .setActivateOnItemClick(true);
         }
@@ -67,7 +68,7 @@ public class ItemListActivity extends FragmentActivity
             arguments.putString(ItemDetailFragment.ARG_ITEM_ID, id);
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
+            getFragmentManager().beginTransaction()
                     .replace(R.id.item_detail_container, fragment)
                     .commit();
 

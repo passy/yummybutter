@@ -1,5 +1,6 @@
 package net.rdrei.android.yummybutter.app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -16,7 +17,7 @@ import android.view.MenuItem;
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link ItemDetailFragment}.
  */
-public class ItemDetailActivity extends FragmentActivity {
+public class ItemDetailActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class ItemDetailActivity extends FragmentActivity {
                     getIntent().getStringExtra(ItemDetailFragment.ARG_ITEM_ID));
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
+            getFragmentManager().beginTransaction()
                     .add(R.id.item_detail_container, fragment)
                     .commit();
         }
