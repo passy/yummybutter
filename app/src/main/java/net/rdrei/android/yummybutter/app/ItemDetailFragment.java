@@ -14,7 +14,8 @@ import android.widget.TextView;
 import net.rdrei.android.yummybutter.app.dummy.DummyContent;
 
 import java.util.List;
-import java.util.Random;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -33,7 +34,9 @@ public class ItemDetailFragment extends ListFragment implements
      * The dummy content this fragment is presenting.
      */
     private DummyContent.DummyItem mItem;
-    private RepositoriesAdapter mAdapter;
+
+    @Inject
+    RepositoriesAdapter mAdapter;
 
     private int mMutCounter = 0;
 
@@ -45,6 +48,12 @@ public class ItemDetailFragment extends ListFragment implements
 
     @InjectView(R.id.item_count)
     TextView mTextCounter;
+
+    @Inject
+    SillyUsernameFormatter mFormatter;
+
+    @Inject
+    RepositoryLoaderFactory mRepositoryLoaderFactory;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -69,7 +78,6 @@ public class ItemDetailFragment extends ListFragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // YUCK! Dependency on the concrete RepositoriesAdapter and the activity!
         mAdapter = new RepositoriesAdapter(getActivity());
         setListAdapter(mAdapter);
 
@@ -93,7 +101,7 @@ public class ItemDetailFragment extends ListFragment implements
         }
 
         ButterKnife.inject(this, rootView);
-        ButterKnife.findById(rootView, R.id.btn_count);
+        ((YummyApplication) getActivity().getApplication()).inject(this);
 
         mBtnCount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,9 +117,7 @@ public class ItemDetailFragment extends ListFragment implements
     }
 
     public void updateViews() {
-        // YUCK! Reference to a private class with non-deterministic output. TESTING NIGHTMARE!
-        final SillyUsernameFormatter formatter = new SillyUsernameFormatter();
-        mTextItemDetail.setText(formatter.formatName());
+        mTextItemDetail.setText(mFormatter.formatName(mItem));
         mTextCounter.setText(String.valueOf(mMutCounter));
     }
 
@@ -120,7 +126,7 @@ public class ItemDetailFragment extends ListFragment implements
         final String username = args.getString(KEY_USERNAME);
 
         // YUCK! Another reference to the activity and a production service!
-        return new RepositoryLoader(getActivity(), username);
+        return mRepositoryLoaderFactory.create(username);
     }
 
     @Override
@@ -134,22 +140,4 @@ public class ItemDetailFragment extends ListFragment implements
         mAdapter.setItems(null);
     }
 
-    private class SillyUsernameFormatter {
-        private final Random mRandom;
-
-        private final String[] PREFIXES = {
-                "The Great",
-                "The Magnificent",
-                "The Epic",
-                "The Grand"
-        };
-
-        public SillyUsernameFormatter() {
-            mRandom = new Random();
-        }
-
-        public String formatName() {
-            return String.format("%s %s", PREFIXES[mRandom.nextInt(PREFIXES.length)], mItem.content);
-        }
-    }
 }
