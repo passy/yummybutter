@@ -14,6 +14,7 @@ import android.widget.TextView;
 import net.rdrei.android.yummybutter.app.dummy.DummyContent;
 
 import java.util.List;
+import java.util.Random;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -72,11 +73,13 @@ public class ItemDetailFragment extends ListFragment implements
         mAdapter = new RepositoriesAdapter(getActivity());
         setListAdapter(mAdapter);
 
-        final Bundle loaderBundle = new Bundle();
-        loaderBundle.putString(KEY_USERNAME, "passy");
+        if (mItem != null) {
+            final Bundle loaderBundle = new Bundle();
+            loaderBundle.putString(KEY_USERNAME, mItem.content);
 
-        assert getLoaderManager() != null;
-        getLoaderManager().initLoader(0, loaderBundle, this);
+            assert getLoaderManager() != null;
+            getLoaderManager().initLoader(0, loaderBundle, this);
+        }
     }
 
 
@@ -106,7 +109,9 @@ public class ItemDetailFragment extends ListFragment implements
     }
 
     public void updateViews() {
-        mTextItemDetail.setText(mItem.content);
+        // YUCK! Reference to a private class with non-deterministic output. TESTING NIGHTMARE!
+        final SillyUsernameFormatter formatter = new SillyUsernameFormatter();
+        mTextItemDetail.setText(formatter.formatName());
         mTextCounter.setText(String.valueOf(mMutCounter));
     }
 
@@ -127,5 +132,24 @@ public class ItemDetailFragment extends ListFragment implements
     @Override
     public void onLoaderReset(Loader<List<RepositoriesAdapter.RepositoryEntity>> loader) {
         mAdapter.setItems(null);
+    }
+
+    private class SillyUsernameFormatter {
+        private final Random mRandom;
+
+        private final String[] PREFIXES = {
+                "The Great",
+                "The Magnificent",
+                "The Epic",
+                "The Grand"
+        };
+
+        public SillyUsernameFormatter() {
+            mRandom = new Random();
+        }
+
+        public String formatName() {
+            return String.format("%s %s", PREFIXES[mRandom.nextInt(PREFIXES.length)], mItem.content);
+        }
     }
 }

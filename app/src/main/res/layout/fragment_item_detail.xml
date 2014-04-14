@@ -22,7 +22,7 @@
         android:layout_alignStart="@id/item_detail"
         android:layout_below="@+id/item_detail"
         android:layout_marginTop="16dp"
-        android:text="Count"/>
+        android:text="Star"/>
 
     <TextView
         android:id="@+id/textView"
@@ -31,7 +31,7 @@
         android:layout_alignStart="@id/item_detail"
         android:layout_below="@id/btn_count"
         android:layout_marginTop="16dp"
-        android:text="Counter"/>
+        android:text="Stars:"/>
 
     <TextView
         android:id="@+id/item_count"
