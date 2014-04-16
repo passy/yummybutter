@@ -22,17 +22,9 @@ import butterknife.InjectView;
 
 public class ItemDetailFragment extends ListFragment implements
         LoaderManager.LoaderCallbacks<List<RepositoriesAdapter.RepositoryEntity>> {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
     public static final String ARG_ITEM_ID = "item_id";
     private static final String KEY_USERNAME = "username";
     public static final String TAG = "ITEM_DETAIL";
-
-    /**
-     * The dummy content this fragment is presenting.
-     */
     private DummyContent.DummyItem mItem;
 
     @Inject
@@ -55,10 +47,6 @@ public class ItemDetailFragment extends ListFragment implements
     @Inject
     RepositoryLoaderFactory mRepositoryLoaderFactory;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public ItemDetailFragment() {
     }
 
@@ -124,8 +112,6 @@ public class ItemDetailFragment extends ListFragment implements
     @Override
     public Loader<List<RepositoriesAdapter.RepositoryEntity>> onCreateLoader(int id, Bundle args) {
         final String username = args.getString(KEY_USERNAME);
-
-        // YUCK! Another reference to the activity and a production service!
         return mRepositoryLoaderFactory.create(username);
     }
 
