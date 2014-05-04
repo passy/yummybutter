@@ -19,8 +19,8 @@ public class SillyUsernameFormatter {
     };
 
     @Inject
-    public SillyUsernameFormatter() {
-        mRandom = new Random();
+    public SillyUsernameFormatter(final Random random) {
+        mRandom = random;
     }
 
     public String formatName(final DummyContent.DummyItem item) {

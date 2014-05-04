@@ -3,6 +3,8 @@ package net.rdrei.android.yummybutter.app;
 import android.app.Application;
 import android.content.Context;
 
+import java.util.Random;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -17,5 +19,10 @@ public class ApplicationModule {
     @Provides
     public Context provideApplicationContext() {
         return mApplicationContext;
+    }
+
+    @Provides
+    public Random provideRandom() {
+        return new Random();
     }
 }
