@@ -33,6 +33,7 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.5.0'
     compile 'com.squareup.dagger:dagger:1.2.1'
     compile 'org.mockito:mockito-all:1.9.5'
+    compile 'com.google.dexmaker:dexmaker-mockito:1.1'
     provided 'com.squareup.dagger:dagger-compiler:1.2.1'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
