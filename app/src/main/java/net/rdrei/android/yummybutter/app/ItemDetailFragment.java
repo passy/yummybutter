@@ -92,12 +92,9 @@ public class ItemDetailFragment extends ListFragment implements
         ButterKnife.inject(this, rootView);
         ((YummyApplication) getActivity().getApplication()).inject(this);
 
-        mBtnCount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mMutCounter += 1;
-                updateViews();
-            }
+        mBtnCount.setOnClickListener(v -> {
+            mMutCounter += 1;
+            updateViews();
         });
 
         updateViews();
