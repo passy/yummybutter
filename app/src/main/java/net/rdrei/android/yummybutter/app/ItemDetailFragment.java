@@ -1,8 +1,6 @@
 package net.rdrei.android.yummybutter.app;
 
 import android.app.ListFragment;
-import android.app.LoaderManager;
-import android.content.Loader;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -20,11 +18,15 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import retrofit.RestAdapter;
+import retrofit.http.GET;
+import retrofit.http.Path;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-public class ItemDetailFragment extends ListFragment implements
-        LoaderManager.LoaderCallbacks<List<RepositoriesAdapter.RepositoryEntity>> {
+public class ItemDetailFragment extends ListFragment {
     public static final String ARG_ITEM_ID = "item_id";
-    private static final String KEY_USERNAME = "username";
     public static final String TAG = "ITEM_DETAIL";
     private DummyContent.DummyItem mItem;
 
@@ -44,9 +46,6 @@ public class ItemDetailFragment extends ListFragment implements
 
     @Inject
     SillyUsernameFormatter mFormatter;
-
-    @Inject
-    RepositoryLoaderFactory mRepositoryLoaderFactory;
 
     public ItemDetailFragment() {
     }
@@ -71,14 +70,12 @@ public class ItemDetailFragment extends ListFragment implements
         setListAdapter(mAdapter);
 
         if (mItem != null) {
-            final Bundle loaderBundle = new Bundle();
-            loaderBundle.putString(KEY_USERNAME, mItem.content);
-
-            assert getLoaderManager() != null;
-            getLoaderManager().initLoader(0, loaderBundle, this);
+            buildService().listRepositories(mItem.content)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(mAdapter::setItems);
         }
     }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -107,21 +104,16 @@ public class ItemDetailFragment extends ListFragment implements
         mTextCounter.setText(String.valueOf(mMutCounter));
     }
 
-    @Override
-    public Loader<List<RepositoriesAdapter.RepositoryEntity>> onCreateLoader(int id, Bundle args) {
-        final String username = args.getString(KEY_USERNAME);
-        return mRepositoryLoaderFactory.create(username);
+    private static GitHubService buildService() {
+        final RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint("https://api.github.com")
+                .build();
+
+        return restAdapter.create(GitHubService.class);
     }
 
-    @Override
-    public void onLoadFinished(Loader<List<RepositoriesAdapter.RepositoryEntity>> loader, List<RepositoriesAdapter.RepositoryEntity> data) {
-        Log.d(TAG, "Data received: " + data.toString());
-        mAdapter.setItems(data);
+    public interface GitHubService {
+        @GET("/users/{user}/repos")
+        Observable<List<RepositoriesAdapter.RepositoryEntity>> listRepositories(@Path("user") String user);
     }
-
-    @Override
-    public void onLoaderReset(Loader<List<RepositoriesAdapter.RepositoryEntity>> loader) {
-        mAdapter.setItems(null);
-    }
-
 }
