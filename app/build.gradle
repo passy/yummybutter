@@ -1,4 +1,4 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 20
@@ -15,12 +15,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
-    buildTypes {
-        release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-        }
-    }
 
     lintOptions {
         abortOnError false
@@ -30,10 +24,10 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:20.+'
     compile 'com.jakewharton:butterknife:4.0.1'
-    compile 'com.squareup.retrofit:retrofit:1.5.0'
+    compile 'com.squareup.retrofit:retrofit:1.5.1'
     compile 'com.squareup.dagger:dagger:1.2.1'
-    compile 'org.mockito:mockito-all:1.9.5'
-    compile 'com.google.dexmaker:dexmaker-mockito:1.1'
+    androidTestCompile 'org.mockito:mockito-all:1.9.5'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.1'
     provided 'com.squareup.dagger:dagger-compiler:1.2.1'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
