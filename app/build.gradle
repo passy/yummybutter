@@ -41,6 +41,7 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.1'
     compile 'com.netflix.rxjava:rxjava-android:0.18.3'
     provided 'com.squareup.dagger:dagger-compiler:1.2.1'
+    compile 'com.squareup.picasso:picasso:2.3.2'
     androidTestCompile 'org.mockito:mockito-all:1.9.5'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.1'
     compile fileTree(dir: 'libs', include: ['*.jar'])

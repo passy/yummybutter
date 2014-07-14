@@ -3,12 +3,14 @@ package net.rdrei.android.yummybutter.app;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import net.rdrei.android.yummybutter.app.dummy.DummyContent;
 
@@ -44,6 +46,9 @@ public class ItemDetailFragment extends ListFragment {
     @InjectView(R.id.item_count)
     TextView mTextCounter;
 
+    @InjectView(R.id.avatar)
+    ImageView mAvatar;
+
     @Inject
     SillyUsernameFormatter mFormatter;
 
@@ -74,6 +79,12 @@ public class ItemDetailFragment extends ListFragment {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(mAdapter::setItems);
+
+            buildService().getUser(mItem.content)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(user ->
+                            Picasso.with(getActivity()).load(user.avatar_url).into(mAvatar));
         }
     }
 
@@ -115,5 +126,14 @@ public class ItemDetailFragment extends ListFragment {
     public interface GitHubService {
         @GET("/users/{user}/repos")
         Observable<List<RepositoriesAdapter.RepositoryEntity>> listRepositories(@Path("user") String user);
+
+        @GET("/users/{user}")
+        Observable<User> getUser(@Path("user") String user);
+    }
+
+    public class User {
+        public String login;
+        public String avatar_url;
+        public String name;
     }
 }

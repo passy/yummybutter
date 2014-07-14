@@ -67,4 +67,13 @@
         android:visibility="gone"
         android:textAppearance="?android:textAppearanceMedium"
         android:text="No butter" />
+
+    <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:id="@+id/avatar"
+            android:src="@drawable/ic_launcher"
+            android:layout_alignTop="@+id/item_detail"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
 </RelativeLayout>
