@@ -13,7 +13,7 @@ that I can refer to.
 
 ## Libraries Used
 
-- [Butter Knife](http://jakewharton.github.io/butterknife/).
+- [Butter Knife](http://jakewharton.github.io/butterknife/)
 - [Dagger](https://github.com/square/dagger)
 - [Retrofit](https://github.com/square/retrofit)
 - [Mockito](https://code.google.com/p/mockito)
@@ -21,3 +21,4 @@ that I can refer to.
 - [retrolambda](https://github.com/orfjackal/retrolambda)
 - [gradle-retrolambda](https://github.com/evant/gradle-retrolambda)
 - [RxJava](https://github.com/Netflix/RxJava)
+- [Picasso](https://square.github.io/picasso/)
