@@ -24,7 +24,11 @@ import retrofit.RestAdapter;
 import retrofit.http.GET;
 import retrofit.http.Path;
 import rx.Observable;
+import rx.android.observables.ViewObservable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 public class ItemDetailFragment extends ListFragment {
@@ -100,10 +104,13 @@ public class ItemDetailFragment extends ListFragment {
         ButterKnife.inject(this, rootView);
         ((YummyApplication) getActivity().getApplication()).inject(this);
 
-        mBtnCount.setOnClickListener(v -> {
-            mMutCounter += 1;
-            updateViews();
-        });
+        ViewObservable.clicks(mBtnCount, false)
+                .map(button -> 1)
+                .scan((integer, integer2) -> integer + integer2)
+                .subscribe(integer -> {
+                    mMutCounter = integer;
+                    updateViews();
+                });
 
         updateViews();
 
