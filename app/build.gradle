@@ -1,15 +1,37 @@
 buildscript {
     repositories {
         mavenCentral()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }
 
     dependencies {
         classpath 'me.tatarka:gradle-retrolambda:1.3.3'
+        classpath 'net.rdrei.android.buildtimetracker:gradle-plugin:0.3.+'
     }
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'retrolambda'
+apply plugin: 'build-time-tracker'
+
+buildtimetracker {
+  reporters {
+    csv {
+      output "build/times.csv"
+      append true
+      header false
+    }
+
+    summary {
+      ordered false
+      threshold 50
+    }
+
+    csvSummary {
+      csv "build/times.csv"
+    }
+  }
+}
 
 android {
     compileSdkVersion 20
