@@ -1,0 +1,76 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/user_detail_container"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".UserDetailActivity"
+             tools:ignore="MergeRootFrame"
+        >
+
+    <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+        <ImageView
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:id="@+id/user_avatar"
+                android:src="@drawable/ic_launcher"
+                android:layout_column="0"/>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginLeft="16dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="User Name"
+                    android:id="@+id/user_name"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="0 Followers"
+                    android:id="@+id/user_followers"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="0 Followings"
+                    android:id="@+id/user_followings"/>
+
+        </LinearLayout>
+    </TableRow>
+
+    <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Projects"
+                android:layout_marginTop="16dp"
+                android:layout_column="0"/>
+    </TableRow>
+
+    <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/user_projects_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+    </TableRow>
+
+</TableLayout>
+
